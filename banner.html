@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus11®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>jquery对象级插件封装</title>
+  <link rel="stylesheet" type="text/css" href="banner.css">
+ </head>
+ <body>
+	<!--先写好效果 再去考虑封装-->
+	<div class="banner">
+		<div class="pannel">
+			<div class="scroll">
+				<a href="http://www.jd.com" target="_blank"><img src="images/1.jpg"/></a>
+				<a href="http://www.jd.com" target="_blank"><img src="images/2.jpg"/></a>
+				<a href="http://www.jd.com" target="_blank"><img src="images/3.jpg"/></a>
+				<a href="http://www.jd.com" target="_blank"><img src="images/4.jpg"/></a>
+				<a href="http://www.jd.com" target="_blank"><img src="images/5.jpg"/></a>
+			</div>
+			<div class="btns">
+				<span class="active"></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+		</div>
+		<a href="javascript:void(0)" class="prev"></a>
+		<a href="javascript:void(0)" class="next"></a>
+	</div>
+	<script type="text/javascript" src="jquery-3.2.1.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var index = 0;
+			var timer ;
+			$(".btns span").mouseover(function(){
+				index = $(this).index();//拿到当前span标签的序号，下标
+				//-5*width
+				$(".scroll").animate({left:-index*590+"px"},1000);	
+				$(this).siblings("span").removeClass("active");
+			});
+			$(".prev").click(function(){
+					index--;
+					if(index<0){
+						 index = 4;
+					}
+					$(".btns span").eq(index).addClass("active").siblings("span").removeClass("active");
+					$(".scroll").animate({left:-index*590+"px"},500);	
+				});
+			$(".next").click(function(){
+					index++;
+					if(index>=5){
+						 index = 0;
+					}
+					$(".btns span").eq(index).addClass("active").siblings("span").removeClass("active");
+					$(".scroll").animate({left:-index*590+"px"},1000);	
+			});
+			function startPlay(){
+				timer = setInterval(function(){
+					index++;
+					if(index>4){
+						index = 0;
+					}
+					$(".btns span").eq(index).addClass("active").siblings("span").removeClass("active");
+					$(".scroll").animate({left:-index*590+"px"},1000);	
+				},3000);
+			}
+			$(".banner").mouseover(function(){
+				clearInterval(timer);
+			});
+			$(".banner").mouseout(function(){
+				startPlay();
+			});
+			startPlay();
+		});
+	</script>
+ </body>
+</html>
